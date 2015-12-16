@@ -7,8 +7,8 @@ receiver - показва телефона, към който е направено повикването
 duration - дължината на разговора (в минути)*/
 
 public class Call {
-final  double priceForAMinute= 0.15;
-String caller;
-String receiver;
-double duration;
+	static double priceForAMinute = 0.15;
+	GSM caller;
+	GSM receiver;
+	double duration;
 }

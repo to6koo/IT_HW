@@ -14,8 +14,8 @@ public class GSM {
 	boolean hasSimCard;
 	String simMobileNumber;
 	double outgoingCallDuration;
-	double lastIncomingCall;
-	double lastOutgoingCall;
+	Call lastIncomingCall;
+	Call lastOutgoingCall;
 
 	/*
 	 * insertSimCard(simMobileNumber) – метода задава номер(сим карта) на
@@ -31,39 +31,39 @@ public class GSM {
 			System.out.println("The Phone number is valid!");
 			System.out.println("The phone is with SIM card!");
 			this.hasSimCard = true;
+			this.simMobileNumber = simMobileNumber;
 		} else {
 			System.out.println("Invalid validation / The Phone number is not correct!");
 			System.out.println("Change the SIM card on your phone!");
 			this.hasSimCard = false;
-			this.simMobileNumber = "No SIM";
+
 		}
 
 	}
+
 	/*
 	 * removeSimCard() - премахва сим картата от телефона (задава false на
 	 * полето hasSimCard)
 	 */
 
 	void removeSimCard() {
-		this.hasSimCard = false;
+		if (this.hasSimCard == true) {
+			this.hasSimCard = false;
+		}
+		this.simMobileNumber = null;
 	}
-
 	/*
-	 *  call( receiver, duration) – В тялото му да се направят проверки за: •
+	 * call( receiver, duration) – В тялото му да се направят проверки за: •
 	 * дали въведената дължина на разговора е валидна • дали двата телефона
 	 * (този за който се извиква метода и този към който се прави обаждането) не
 	 * са един и същ телефон • дали и двата телефона имат сим карта
 	 */
-	void call(Call receiver, double duration, Call caller) {
-		if (duration != 0.0) {
-			System.out.println("The duration must be  valid!");
 
-		}
-
-		if (hasSimCard == true && !(caller.equals(receiver))) {
-
-			System.out.println("The call will be executed!");
-
+	void call(Call call, GSM receiver) {
+		call.caller = this;
+		call.receiver = receiver;
+		if (call.duration > 0 && !(this.simMobileNumber.equals(receiver.simMobileNumber)) && this.hasSimCard == true
+				&& receiver.hasSimCard == true) {
 			/*
 			 * Ако всички проверки преминат успешно, метода прави обаждане с
 			 * продължителност duration към телефона, подаден като параметър.
@@ -73,9 +73,11 @@ public class GSM {
 			 * телефона към който се прави обаждането.
 			 */
 
-			this.lastIncomingCall = duration;
-			this.lastOutgoingCall = duration;
-			this.lastIncomingCall = this.outgoingCallDuration;
+			this.lastOutgoingCall = call;
+			receiver.lastIncomingCall = call;
+			this.outgoingCallDuration += call.duration;
+		} else {
+			System.out.println("Error!");
 		}
 	}
 
@@ -85,12 +87,16 @@ public class GSM {
 	 * изходящо/входящо повиквана на телефона (ако има такова)
 	 */
 
-	void printInfoForTheLastOutgoingCall() {
-		System.out.println("Tha last outgoing call is: " + this.lastOutgoingCall);
+	void printInfoForTheLastIncomingCall() {
+		System.out.println("Caller: " + this.lastIncomingCall.caller.simMobileNumber);
+		System.out.println("Receiver: " + this.lastIncomingCall.receiver.simMobileNumber);
+		System.out.println("Duration: " + this.lastIncomingCall.duration);
 	}
 
-	void printInfoForTheLastIncomingCall() {
-		System.out.println("Tha last outgoing call is: " + this.lastIncomingCall);
+	void printInfoForTheLastOutgoingCall() {
+		System.out.println("Caller: " + this.lastOutgoingCall.caller.simMobileNumber);
+		System.out.println("Receiver: " + this.lastOutgoingCall.receiver.simMobileNumber);
+		System.out.println("Duration: " + this.lastOutgoingCall.duration);
 	}
 
 	/*
@@ -99,9 +105,10 @@ public class GSM {
 	 * за минута - priceForAMinute).
 	 */
 
-	double getSumForCall(double priceForAMinute) {
+	@SuppressWarnings("static-access")
+	double getSumForCall(Call call) {
 
-		double allCalls = (this.outgoingCallDuration / 0.6) * priceForAMinute;
+		double allCalls = (this.outgoingCallDuration / 0.6) * call.priceForAMinute;
 		return allCalls;
 	}
 
