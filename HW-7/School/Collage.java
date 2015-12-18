@@ -12,6 +12,7 @@ public class Collage {
 		students.addStudent(to6koo);
 		students.addStudent(to6koo1);
 		students.printStudentsInGroup();
+		students.beststudent();
 		
 		
 		

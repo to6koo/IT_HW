@@ -3,7 +3,7 @@ public class StudentGroup {
 	String groupSubject;
 	Student[] students;
 	int freePlaces;
-	private int currentFreePlace;
+	int currentFreePlace;
 
 	public StudentGroup() {
 		this.freePlaces = 5;
@@ -31,7 +31,15 @@ public class StudentGroup {
 		}
 	}
 
-	
+	String beststudent() {
+		int index = 0;
+		for (int i = 0; i < students.length; i++) {
+			if (students[index].grade < students[i].grade) {
+				index = i;
+			}
+		}
+		return students[index].name;
+	}
 
 	void printStudentsInGroup() {
 		for (int index = 0; index < currentFreePlace; index++) {
