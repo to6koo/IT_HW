@@ -33,9 +33,10 @@ public class StudentGroup {
 
 	String beststudent() {
 		int index = 0;
+		
 		for (int i = 0; i < students.length; i++) {
 			if (students[index].grade < students[i].grade) {
-				index = i;
+				this.students[index].grade = i;
 			}
 		}
 		return students[index].name;
