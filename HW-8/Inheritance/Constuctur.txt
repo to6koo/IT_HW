@@ -1,0 +1,19 @@
+Kакво ще стане ако дефинирате конструктор без
+параметри Student() в класа Student ??? Възможно ли е, и ако не защо.
+Как може да се оправи това?
+
+Ако се дефинира конструктор без параметри в Student(),
+ще има компилационна грешка. Трябва да се ползва контруктура от Person();
+при което може да се допълни с параметри от Student();
+Ако искаме да дефинираме конструктур без параметри, който да се ползва в студент,
+трябва да се дефинира в родителския клас Person().
+
+What if defined constructor without
+parameters Student () in the class Student ??? Is it possible, and if not why.
+How can you fix this?
+
+If you define the constructor without parameters Student (),
+there will be a compilation error. Should be used constructor of Person ();
+in which can be supplemented with parameters of Student ();
+If we want to define a constructor with no parameters to be used in student
+should be defined in the parent class Person ()
